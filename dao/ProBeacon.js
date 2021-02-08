@@ -1,7 +1,7 @@
 const client = require('./MySQLUtil');
 
 const getBeaconuuidlist = function () {
-    let sql = "SELECT distinct b_uuid FROM beaconsever.beaconlist;"
+    let sql = "SELECT b_uuid,b_major,b_minor FROM beaconsever.beaconlist;"
     return pros(sql);
 }
 

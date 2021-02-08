@@ -5,28 +5,25 @@ const beaconpro = require('../dao/ProBeacon');
 
 router.get('/getbeaconuuidlist', async function (req, res, next) {
     try {
-        const dbresult = await beaconpro.getBeaconuuidlist();
-        const result = [];
-        for (let i = 0; i < dbresult.length; i++) {
-            result.push(dbresult[i].b_uuid)
-        }
+        const result = await beaconpro.getBeaconuuidlist();
         res.send(result);
     } catch (e) {
         console.log(e);
-        res.send("failed");
+        res.json({"status": "failed"});
     }
 });
 
 router.post('/getbeacondetail', async function (req, res, next) {
     try {
         const result = await beaconpro.getBeacondetail(req.body.data.beaconlist[0].uuid, req.body.data.beaconlist[0].mj, req.body.data.beaconlist[0].mn);
+        var time=new Date().toISOString();
         res.json({
             "uid": req.body.data.uid,
             "lon": result[0].b_lon,
             "lat": result[0].b_lat,
             "alt": result[0].b_alt,
             "flr": result[0].b_floor,
-            "tim": req.body.data.tim,
+            "tim": time,
             "did": req.body.data.did
         });
     } catch (e) {
