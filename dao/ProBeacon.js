@@ -1,7 +1,7 @@
 const client = require('./MySQLUtil');
 
 const getBeaconuuidlist = function () {
-    let sql = "SELECT b_uuid,b_major,b_minor FROM beaconsever.beaconlist;"
+    let sql = "SELECT distinct b_uuid FROM beaconsever.beaconlist;"
     return pros(sql);
 }
 
@@ -31,6 +31,11 @@ const deleteBeacon = function (b_id) {
     return pros(sql);
 }
 
+const updateBeaconPosition = function (b_id,b_lon,b_lat,b_alt,b_floor){
+    let sql = "UPDATE beaconsever.beaconlist set b_lon ="+"'" + b_lon + "', b_lat ='" + b_lat + "', b_alt ='" + b_alt + "', b_floor ='" + b_floor + "' where b_id = '" + b_id + "';"
+    return pros(sql);
+}
+
 const updateBeacon = function (b_id, b_name, b_uuid, b_major, b_minor, b_txpower, b_lon, b_lat, b_alt, b_floor, b_note) {
     let sql = "UPDATE beaconsever.beaconlist set b_name = " + "'" + b_name + "',b_uuid = '" + b_uuid + "', b_major ='" + b_major + "', b_minor ='" + b_minor + "', b_txpower ='" + b_txpower +
         "', b_lon ='" + b_lon + "', b_lat ='" + b_lat + "', b_alt ='" + b_alt + "', b_floor ='" + b_floor + "', b_note ='" + b_note + "' where b_id = '" + b_id + "';"
@@ -57,5 +62,6 @@ module.exports = {
     insertnewbeacon,
     getBeaconByid,
     deleteBeacon,
-    updateBeacon
+    updateBeacon,
+    updateBeaconPosition
 }
