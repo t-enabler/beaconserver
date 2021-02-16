@@ -15,6 +15,11 @@ const getAllBeacondetail = function () {
     return pros(sql);
 }
 
+const getAllAreadetail = function () {
+    let sql = "SELECT * FROM beaconsever.arealist ;"
+    return pros(sql);
+}
+
 const insertnewbeacon = function (b_name, b_uuid, b_major, b_minor, b_txpower, b_lon, b_lat, b_alt, b_floor, b_note) {
     let sql = "Insert into beaconsever.beaconlist(b_name,b_uuid,b_major,b_minor,b_txpower,b_lon,b_lat,b_alt,b_floor,b_note) VALUES (" + "'" + b_name + "','" + b_uuid + "','" + b_major + "','" + b_minor +
         "','" + b_txpower + "','" + b_lon + "','" + b_lat + "','" + b_alt + "','" + b_floor + "','" + b_note + "');"
@@ -63,5 +68,6 @@ module.exports = {
     getBeaconByid,
     deleteBeacon,
     updateBeacon,
-    updateBeaconPosition
+    updateBeaconPosition,
+    getAllAreadetail
 }

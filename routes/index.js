@@ -80,6 +80,16 @@ router.get('/getAllBeacondetail', async function (req, res, next) {
     }
 });
 
+router.get('/getAllAreadetail', async function (req, res, next) {
+    try {
+        const result = await beaconpro.getAllAreadetail();
+        res.send(result);
+    } catch (e) {
+        console.log(e);
+        res.json({"status": "failed"});
+    }
+});
+
 router.get('/getBeaconByid/:Bid', async function (req, res, next) {
     try {
         const result = await beaconpro.getBeaconByid(req.params.Bid);
