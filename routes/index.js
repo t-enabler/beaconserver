@@ -90,9 +90,30 @@ router.get('/getAllAreadetail', async function (req, res, next) {
     }
 });
 
+
+router.get('/getAreaName', async function (req, res, next) {
+    try {
+        const result = await beaconpro.getAreaName();
+        res.send(result);
+    } catch (e) {
+        console.log(e);
+        res.json({"status": "failed"});
+    }
+});
+
 router.get('/getBeaconByid/:Bid', async function (req, res, next) {
     try {
         const result = await beaconpro.getBeaconByid(req.params.Bid);
+        res.send(result);
+    } catch (e) {
+        console.log(e);
+        res.json({"status": "failed"});
+    }
+});
+
+router.get('/getareadetail/:areaid', async function (req, res, next) {
+    try {
+        const result = await beaconpro.getareadetail(req.params.areaid);
         res.send(result);
     } catch (e) {
         console.log(e);
@@ -109,5 +130,37 @@ router.post('/updateBeaconPosition', async function (req, res, next) {
         res.json({"status": "failed"});
     }
 });
+
+router.post('/addareadetail', async function (req, res, next) {
+    try {
+        await beaconpro.addareadetail(req.body.data.area_name, req.body.data.area_nameeng, req.body.data.area_type, req.body.data.area_latlng, req.body.data.area_note, parseFloat(req.body.data.area_lat), parseFloat(req.body.data.area_lng));
+        res.json({"status": "success"});
+    } catch (e) {
+        console.log(e);
+        res.json({"status": "failed"});
+    }
+});
+
+router.post('/deletearea', async function (req, res, next) {
+    try {
+        await beaconpro.deletearea(req.body.data.area_id);
+        res.json({"status": "success"});
+    } catch (e) {
+        console.log(e);
+        res.json({"status": "failed"});
+    }
+});
+
+router.post('/updateareadetail', async function (req, res, next) {
+    try {
+        await beaconpro.updateareadetail(req.body.data.area_id,req.body.data.area_name, req.body.data.area_nameeng, req.body.data.area_type, req.body.data.area_latlng, req.body.data.area_note, parseFloat(req.body.data.area_lat), parseFloat(req.body.data.area_lng));
+        res.json({"status": "success"});
+    } catch (e) {
+        console.log(e);
+        res.json({"status": "failed"});
+    }
+});
+
+
 
 module.exports = router;
