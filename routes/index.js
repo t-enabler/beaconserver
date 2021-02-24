@@ -90,6 +90,17 @@ router.get('/getAllAreadetail', async function (req, res, next) {
     }
 });
 
+router.get('/getAreaDetailsPhone/:lat/:lng/:distance', async function (req, res, next) {
+    try {
+        const result = await beaconpro.getAllAreadetail();
+        res.send(result);
+    } catch (e) {
+        console.log(e);
+        res.json({"status": "error"});
+    }
+});
+
+
 
 router.get('/getAreaName', async function (req, res, next) {
     try {
@@ -134,6 +145,16 @@ router.post('/updateBeaconPosition', async function (req, res, next) {
 router.post('/addareadetail', async function (req, res, next) {
     try {
         await beaconpro.addareadetail(req.body.data.area_name, req.body.data.area_nameeng, req.body.data.area_type, req.body.data.area_latlng, req.body.data.area_note, parseFloat(req.body.data.area_lat), parseFloat(req.body.data.area_lng));
+        res.json({"status": "success"});
+    } catch (e) {
+        console.log(e);
+        res.json({"status": "failed"});
+    }
+});
+
+router.post('/addindoorareadetail', async function (req, res, next) {
+    try {
+        await beaconpro.addindoorareadetail(req.body.data.area_name, req.body.data.area_nameeng, req.body.data.area_type, req.body.data.area_latlng, req.body.data.area_note, parseFloat(req.body.data.area_lat), parseFloat(req.body.data.area_lng),req.body.data.area_alt,req.body.data.area_svgfile);
         res.json({"status": "success"});
     } catch (e) {
         console.log(e);

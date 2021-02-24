@@ -58,6 +58,12 @@ const addareadetail = function (area_name, area_nameeng, area_type, area_latlng,
     return pros(sql);
 }
 
+const addindoorareadetail = function (area_name, area_nameeng, area_type, area_latlng, area_note, area_lat, area_lng, area_alt, area_svgfile) {
+    let sql = "Insert into beaconsever.arealist(area_name,area_nameeng,area_type,area_latlng,area_note,area_lat,area_lng,area_alt,area_svgfile) VALUES (" + "'" + area_name + "','" + area_nameeng + "','" + area_type + "','" + area_latlng +
+        "','" + area_note + "','" + area_lat + "','" + area_lng + "','" + area_alt + "','" + area_svgfile + "');"
+    return pros(sql);
+}
+
 const deletearea = function (area_id) {
     let sql = "DELETE FROM beaconsever.arealist where area_id=" + "'" + area_id + "';"
     return pros(sql);
@@ -102,5 +108,6 @@ module.exports = {
     addareadetail,
     getareadetail,
     deletearea,
-    updateareadetail
+    updateareadetail,
+    addindoorareadetail
 }
