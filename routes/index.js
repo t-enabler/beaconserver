@@ -132,6 +132,16 @@ router.get('/getareadetail/:areaid', async function (req, res, next) {
     }
 });
 
+router.get('/getareadetailbyname/:svgfilename', async function (req, res, next) {
+    try {
+        const result = await beaconpro.getareadetailbyname(req.params.svgfilename);
+        res.send(result);
+    } catch (e) {
+        console.log(e);
+        res.json({"status": "failed"});
+    }
+});
+
 router.post('/updateBeaconPosition', async function (req, res, next) {
     try {
         await beaconpro.updateBeaconPosition(req.body.data.b_id, req.body.data.b_lon, req.body.data.b_lat, req.body.data.b_alt, req.body.data.b_floor);
