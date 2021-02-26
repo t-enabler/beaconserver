@@ -74,7 +74,7 @@ const getareadetail = function (area_id) {
     return pros(sql);
 }
 
-const getareadetailbyname = function (area_svgfile){
+const getareadetailbyname = function (area_svgfile) {
     let sql = "Select * from beaconsever.arealist where area_svgfile=" + "'" + area_svgfile + "';"
     return pros(sql);
 }
@@ -83,6 +83,11 @@ const updateareadetail = function (area_id, area_name, area_nameeng, area_type, 
     let sql = "UPDATE beaconsever.arealist set area_name =" + "'" + area_name + "', area_nameeng ='" + area_nameeng +
         "', area_type ='" + area_type + "', area_latlng ='" + area_latlng + "', area_note ='" + area_note +
         "', area_lat ='" + area_lat + "', area_lng ='" + area_lng + "' where area_id = '" + area_id + "';"
+    return pros(sql);
+}
+
+const getAllAreadetailBylatlng = function (minlat, maxlat, minlng, maxlng) {
+    let sql = "select * from beaconsever.arealist where area_lat >= " + minlat + " and area_lat <= " + maxlat + "and area_lng >= " + minlng + " and area_lng <=" + maxlng + ";"
     return pros(sql);
 }
 
@@ -115,5 +120,6 @@ module.exports = {
     deletearea,
     updateareadetail,
     addindoorareadetail,
-    getareadetailbyname
+    getareadetailbyname,
+    getAllAreadetailBylatlng
 }

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const beaconpro = require('../dao/ProBeacon');
+const calutor = require('../service/getlaglnglogic');
 
 
 router.get('/getbeaconuuidlist', async function (req, res, next) {
@@ -92,14 +93,25 @@ router.get('/getAllAreadetail', async function (req, res, next) {
 
 router.get('/getAreaDetailsPhone/:lat/:lng/:distance', async function (req, res, next) {
     try {
-        const result = await beaconpro.getAllAreadetail();
-        res.send(result);
+        if (req.params.lat == null || req.params.lng == null || req.params.distance == null) {
+            res.json({"status": "error"});
+        } else {
+            const result = calutor.getlatlngresults(Number(req.params.lat), Number(req.params.lng), Number(req.params.distance));
+            if (result.length != 4) {
+                res.json({"status": "error"});
+            } else {
+                //result [minlat,maxlat,minlng,maxlng]
+                const dbresult = await beaconpro.getAllAreadetailBylatlng(result[0], result[1], result[2], result[3]);
+                res.send(dbresult);
+            }
+        }
+
+
     } catch (e) {
         console.log(e);
         res.json({"status": "error"});
     }
 });
-
 
 
 router.get('/getAreaName', async function (req, res, next) {
@@ -164,7 +176,7 @@ router.post('/addareadetail', async function (req, res, next) {
 
 router.post('/addindoorareadetail', async function (req, res, next) {
     try {
-        await beaconpro.addindoorareadetail(req.body.data.area_name, req.body.data.area_nameeng, req.body.data.area_type, req.body.data.area_latlng, req.body.data.area_note, parseFloat(req.body.data.area_lat), parseFloat(req.body.data.area_lng),req.body.data.area_alt,req.body.data.area_svgfile);
+        await beaconpro.addindoorareadetail(req.body.data.area_name, req.body.data.area_nameeng, req.body.data.area_type, req.body.data.area_latlng, req.body.data.area_note, parseFloat(req.body.data.area_lat), parseFloat(req.body.data.area_lng), req.body.data.area_alt, req.body.data.area_svgfile);
         res.json({"status": "success"});
     } catch (e) {
         console.log(e);
@@ -184,14 +196,13 @@ router.post('/deletearea', async function (req, res, next) {
 
 router.post('/updateareadetail', async function (req, res, next) {
     try {
-        await beaconpro.updateareadetail(req.body.data.area_id,req.body.data.area_name, req.body.data.area_nameeng, req.body.data.area_type, req.body.data.area_latlng, req.body.data.area_note, parseFloat(req.body.data.area_lat), parseFloat(req.body.data.area_lng));
+        await beaconpro.updateareadetail(req.body.data.area_id, req.body.data.area_name, req.body.data.area_nameeng, req.body.data.area_type, req.body.data.area_latlng, req.body.data.area_note, parseFloat(req.body.data.area_lat), parseFloat(req.body.data.area_lng));
         res.json({"status": "success"});
     } catch (e) {
         console.log(e);
         res.json({"status": "failed"});
     }
 });
-
 
 
 module.exports = router;
